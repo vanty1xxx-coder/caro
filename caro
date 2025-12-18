@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Caro 2 Người Online</title>
+<style>
+body{
+  font-family: Arial;
+  text-align:center;
+  background:#f2f2f2;
+}
+table{
+  margin:auto;
+  border-collapse:collapse;
+}
+td{
+  width:36px;
+  height:36px;
+  border:1px solid #333;
+  font-size:22px;
+  cursor:pointer;
+}
+td:hover{
+  background:#ddd;
+}
+.X{color:red;font-weight:bold;}
+.O{color:blue;font-weight:bold;}
+#status{margin:10px;font-size:18px;}
+button{
+  padding:8px 16px;
+  font-size:16px;
+  cursor:pointer;
+}
+</style>
+</head>
+<body>
+
+<h2>🎮 Caro 2 Người (Online)</h2>
+<div id="status">Lượt: X</div>
+<table id="board"></table>
+<br>
+<button onclick="resetGame()">🔄 Chơi lại</button>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+<script>
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  databaseURL: "https://YOUR_PROJECT.firebaseio.com",
+  projectId: "YOUR_PROJECT"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+const size=15;
+let current="X";
+const board=document.getElementById("board");
+const status=document.getElementById("status");
+
+for(let i=0;i<size;i++){
+  const r=document.createElement("tr");
+  for(let j=0;j<size;j++){
+    const c=document.createElement("td");
+    c.onclick=()=>play(i,j);
+    r.appendChild(c);
+  }
+  board.appendChild(r);
+}
+
+function play(x,y){
+  db.ref("game/"+x+"_"+y).set(current);
+  current=current==="X"?"O":"X";
+  status.innerText="Lượt: "+current;
+}
+
+db.ref("game").on("value",snap=>{
+  document.querySelectorAll("td").forEach(td=>td.innerText="");
+  snap.forEach(s=>{
+    const [x,y]=s.key.split("_");
+    const cell=board.rows[x].cells[y];
+    cell.innerText=s.val();
+    cell.className=s.val();
+  });
+});
+
+function resetGame(){
+  db.ref("game").remove();
+  current="X";
+  status.innerText="Lượt: X";
+}
+</script>
+
+</body>
+</html>
