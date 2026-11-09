@@ -1,74 +1,39 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-<meta charset="UTF-8">
-<title>Caro 2 Người Online</title>
+<!doctype html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Caro • Chơi cùng bạn</title>
 <style>
-body{
-  font-family: Arial;
-  text-align:center;
-  background:#f2f2f2;
-}
-table{
-  margin:auto;
-  border-collapse:collapse;
-}
-td{
-  width:36px;
-  height:36px;
-  border:1px solid #333;
-  font-size:22px;
-  cursor:pointer;
-}
-td:hover{
-  background:#ddd;
-}
-.X{color:red;font-weight:bold;}
-.O{color:blue;font-weight:bold;}
-#status{margin:10px;font-size:18px;}
-button{
-  padding:8px 16px;
-  font-size:16px;
-  cursor:pointer;
-}
-</style>
-</head>
-<body>
-
-<h2>🎮 Caro 2 Người (Online)</h2>
-<div id="status">Lượt: X</div>
-<table id="board"></table>
-<br>
-<button onclick="resetGame()">🔄 Chơi lại</button>
-
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-
-<script>
-const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  databaseURL: "https://YOUR_PROJECT.firebaseio.com",
-  projectId: "YOUR_PROJECT"
-};
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
-
-const size=15;
-let current="X";
-const board=document.getElementById("board");
-const status=document.getElementById("status");
-
-for(let i=0;i<size;i++){
-  const r=document.createElement("tr");
-  for(let j=0;j<size;j++){
-    const c=document.createElement("td");
-    c.onclick=()=>play(i,j);
-    r.appendChild(c);
-  }
-  board.appendChild(r);
-}
-
-function play(x,y){
-  db.ref("game/"+x+"_"+y).set(current);
-  current=cu
+*{box-sizing:border-box}body{margin:0;background:#eef2f7;color:#17243b;font-family:system-ui,sans-serif}main{max-width:850px;margin:32px auto;padding:20px}header{display:flex;align-items:center;justify-content:space-between;gap:15px}h1{margin:0;font-size:32px}p{line-height:1.6;color:#52617a}.card{background:white;padding:22px;border-radius:20px;box-shadow:0 8px 35px #24375a0b;margin:20px 0}.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center}input,button{font:inherit;border-radius:10px;padding:12px 16px}input{border:1px solid #b9c7da;width:180px;text-transform:uppercase}button{border:0;background:#285be8;color:white;cursor:pointer;font-weight:650}button.secondary{background:#e9eef9;color:#244176}button:disabled{opacity:.45;cursor:default}#status{font-weight:650;color:#244176;min-height:28px}#room{font-size:22px;letter-spacing:3px;color:#285be8}#board{display:grid;grid-template-columns:repeat(15,minmax(0,1fr));border:1px solid #aebbd0;background:#aebbd0;gap:1px;width:100%;aspect-ratio:1}#board button{border-radius:0;padding:0;min-width:0;background:#fff;color:#e04b57;font-size:clamp(12px,3.5vw,26px);font-weight:750;line-height:1}#board button.o{color:#285be8}#board button.last{background:#eaf1ff}#board button.win{background:#d4f4df}#board button:disabled{opacity:1}small{color:#64748b}.board-wrap{padding:12px}.badge{background:#e8efff;padding:8px 12px;border-radius:30px;font-size:13px}#notice{color:#ad3d28;min-height:24px} @media(max-width:550px){main{margin:8px auto;padding:12px}.card{padding:16px}header{align-items:flex-start}h1{font-size:26px}.board-wrap{padding:6px}button{padding:11px}input{width:150px}}
+</style></head><body><main><header><div><h1>✕ ○ Caro</h1><p>Tạo phòng, gửi mã và cùng nhau đấu trí.</p></div><span class="badge">2 người · 15 × 15</span></header>
+<section class="card"><div class="controls"><button id="create">Tạo phòng</button><span>hoặc</span><form id="joinForm" class="controls"><label for="code">Mã phòng</label><input id="code" placeholder="VD: AB12CD" maxlength="6" autocomplete="off" required pattern="[A-Za-z0-9]{6}"><button id="join">Vào phòng</button></form></div><p id="notice" role="alert"></p><div class="controls"><strong id="room"></strong><button id="copy" class="secondary" hidden>Sao chép link</button><button id="leave" class="secondary" hidden>Rời phòng</button></div><p id="status" role="status" aria-live="polite">Tạo phòng mới hoặc nhập mã của bạn bè để bắt đầu.</p><small>Người tạo phòng là X, người tham gia là O. Nối ít nhất 5 quân liên tiếp để thắng. Giữ trang mở trong lúc chơi.</small></section>
+<section class="card board-wrap"><div id="board" aria-label="Bàn cờ caro"></div></section><div class="controls"><button id="reset" disabled>Chơi ván mới</button><button id="local" class="secondary">Chơi 2 người cùng máy</button></div><p><small>Chơi online cần Internet. Một số mạng chặn kết nối trực tiếp có thể không vào phòng được; hãy thử mạng khác.</small></p></main>
+<script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.5/dist/peerjs.min.js"></script><script>
+'use strict';
+const $=id=>document.getElementById(id),N=15,PREFIX='caro-vanty-v2-';
+let peer=null,conn=null,host=false,mode='',symbol='',room='',busy=false,ready=false,timer=null,epoch=0;
+const fresh=()=>({cells:Array(N*N).fill(''),turn:'X',winner:'',line:[],last:-1,round:0});let game=fresh();
+const cells=Array.from({length:N*N},(_,i)=>{const b=document.createElement('button');b.type='button';b.setAttribute('aria-label',`Hàng ${Math.floor(i/N)+1}, cột ${i%N+1}`);b.onclick=()=>move(i);$('board').append(b);return b;});
+function notice(s=''){$('notice').textContent=s;}
+function render(){cells.forEach((b,i)=>{b.textContent=game.cells[i];b.className=(game.cells[i]==='O'?'o ':'')+(game.last===i?'last ':'')+(game.line.includes(i)?'win':'');b.disabled=!ready||!!game.winner||!!game.cells[i]||(mode==='online'&&game.turn!==symbol);});$('room').textContent=room?'Phòng '+room:'';$('copy').hidden=!room;$('leave').hidden=!mode;$('reset').disabled=!ready;$('create').disabled=busy||!!mode;$('join').disabled=busy||!!mode;$('code').disabled=busy||!!mode;$('local').disabled=busy||!!mode;
+if(!mode)return;if(!ready){$('status').textContent=host?'Bạn là X · Đang chờ người thứ hai nhập mã phòng…':'Đang kết nối tới phòng…';return;}$('status').textContent=game.winner?(game.winner==='draw'?'Ván cờ hòa!':`Quân ${game.winner} thắng!`):(mode==='local'?`Cùng máy · Lượt ${game.turn}`:`Bạn là ${symbol} · ${game.turn===symbol?'Đến lượt bạn':'Chờ đối thủ đi'}`);}
+function victory(index,s){const r=Math.floor(index/N),c=index%N;for(const [dr,dc] of [[1,0],[0,1],[1,1],[1,-1]]){let line=[index];for(const sign of [-1,1]){let y=r+dr*sign,x=c+dc*sign;while(y>=0&&y<N&&x>=0&&x<N&&game.cells[y*N+x]===s){line.push(y*N+x);y+=dr*sign;x+=dc*sign;}}if(line.length>=5)return line;}return [];}
+function applyMove(i,s,round){if(!ready||round!==game.round||!Number.isInteger(i)||i<0||i>=N*N||game.cells[i]||game.winner||game.turn!==s)return;game.cells[i]=s;game.last=i;game.line=victory(i,s);game.winner=game.line.length?s:game.cells.every(Boolean)?'draw':'';game.turn=s==='X'?'O':'X';render();sendState();}
+function move(i){notice();if(mode==='local')applyMove(i,game.turn,game.round);else if(host)applyMove(i,'X',game.round);else if(conn?.open&&game.turn==='O')conn.send({type:'move',i,round:game.round});}
+function sendState(){if(host&&conn?.open)conn.send({type:'state',game});}
+function validState(g){return g&&Array.isArray(g.cells)&&g.cells.length===225&&g.cells.every(v=>['','X','O'].includes(v))&&['X','O'].includes(g.turn)&&['','X','O','draw'].includes(g.winner)&&Array.isArray(g.line)&&g.line.every(i=>Number.isInteger(i)&&i>=0&&i<225)&&Number.isInteger(g.last)&&Number.isInteger(g.round);}
+function cleanup(){epoch++;clearTimeout(timer);const old=peer;peer=null;conn=null;if(old)old.destroy();host=false;mode='';symbol='';room='';busy=false;ready=false;game=fresh();$('status').textContent='Tạo phòng mới hoặc nhập mã của bạn bè để bắt đầu.';render();}
+function fail(message){cleanup();notice(message);}
+function wire(c,isHost,token){c.on('data',d=>{if(token!==epoch||!d||typeof d!=='object')return;if(d.type==='full'){fail('Phòng đã đủ 2 người. Hãy tạo phòng khác.');return;}if(isHost){if(c!==conn)return;if(d.type==='move')applyMove(d.i,'O',d.round);if(d.type==='resetRequest'){notice('Đối thủ muốn chơi ván mới. Bấm “Chơi ván mới” để đồng ý.');resetRequested=true;}}else if(d.type==='state'&&validState(d.game)){clearTimeout(timer);busy=false;ready=true;game=d.game;render();}});c.on('close',()=>{if(token===epoch&&c===conn)fail('Đối thủ đã rời phòng hoặc mất kết nối. Hãy tạo hoặc vào lại phòng.');});c.on('error',()=>{if(token===epoch&&c===conn)fail('Kết nối bị lỗi. Hãy thử lại hoặc đổi mạng.');});}
+let resetRequested=false;
+function start(isHost,code){if(mode||busy)return;if(typeof Peer==='undefined'){notice('Không tải được thư viện kết nối. Hãy kiểm tra Internet và tải lại trang.');return;}notice();busy=true;host=isHost;mode='online';symbol=isHost?'X':'O';room=code;game=fresh();resetRequested=false;const token=++epoch;render();timer=setTimeout(()=>{if(token===epoch)fail('Không kết nối được phòng. Kiểm tra mã, giữ trang chủ phòng mở hoặc thử mạng khác.');},25000);
+try{peer=isHost?new Peer(PREFIX+code):new Peer();}catch(e){fail('Không khởi tạo được kết nối. Hãy tải lại trang.');return;}
+peer.on('error',err=>{if(token!==epoch)return;const messages={'unavailable-id':'Mã phòng đang được dùng. Hãy tạo lại phòng.','peer-unavailable':'Không tìm thấy phòng. Kiểm tra mã và yêu cầu chủ phòng giữ trang mở.','network':'Không kết nối được máy chủ. Hãy kiểm tra Internet.'};fail(messages[err.type]||'Kết nối không thành công. Hãy thử lại hoặc đổi mạng.');});
+peer.on('disconnected',()=>{if(token===epoch)fail('Mất kết nối máy chủ. Hãy tạo hoặc vào lại phòng.');});
+peer.on('open',()=>{if(token!==epoch)return;if(isHost){clearTimeout(timer);busy=false;render();}else{conn=peer.connect(PREFIX+code,{reliable:true});wire(conn,false,token);}});
+peer.on('connection',c=>{if(token!==epoch)return;if(!isHost){c.on('open',()=>c.close());return;}if(conn){c.on('open',()=>{c.send({type:'full'});setTimeout(()=>c.close(),300);});return;}conn=c;wire(c,true,token);c.on('open',()=>{if(token!==epoch)return;ready=true;render();sendState();});});}
+$('create').onclick=()=>{const a=new Uint8Array(6);crypto.getRandomValues(a);start(true,Array.from(a,n=>'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'[n%32]).join(''));};
+$('joinForm').onsubmit=e=>{e.preventDefault();const code=$('code').value.trim().toUpperCase();if(!/^[A-Z0-9]{6}$/.test(code)){notice('Nhập mã phòng gồm 6 chữ hoặc số.');return;}start(false,code);};
+$('leave').onclick=()=>{cleanup();notice('Bạn đã rời phòng.');history.replaceState(null,'',location.pathname);};
+$('local').onclick=()=>{cleanup();mode='local';ready=true;notice();render();};
+$('reset').onclick=()=>{if(!ready)return;if(mode==='online'&&!host){conn.send({type:'resetRequest'});notice('Đã gửi yêu cầu chơi lại. Chờ chủ phòng đồng ý.');return;}if(mode==='online'&&!game.winner&&!resetRequested&&!confirm('Bắt đầu ván mới và xóa các nước đi hiện tại?'))return;const round=game.round+1;game=fresh();game.round=round;resetRequested=false;notice();render();sendState();};
+$('copy').onclick=async()=>{const link=location.origin+location.pathname+'?room='+room;try{await navigator.clipboard.writeText(link);notice('Đã sao chép link. Gửi cho người bạn muốn chơi cùng.');}catch{notice('Gửi mã phòng '+room+' cho bạn bè.');}};
+const initial=new URLSearchParams(location.search).get('room');if(initial&&/^[A-Z0-9]{6}$/i.test(initial)){$('code').value=initial.toUpperCase();notice('Mã phòng đã điền sẵn. Bấm “Vào phòng” để tham gia.');}render();
+</script></body></html>
