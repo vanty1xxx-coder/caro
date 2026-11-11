@@ -1,0 +1,22 @@
+name: Caro cross-network verification
+on:
+  push:
+    paths:
+      - '.github/workflows/caro-network.yml'
+  workflow_dispatch:
+    inputs:
+      room:
+        description: 'Room code created by the local browser tester'
+        required: true
+permissions:
+  contents: read
+jobs:
+  cross-network:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify a real room from a separate network
+        env:
+          CARO_ROOM: ${{ inputs.room || 'WVV8UZ' }}
+        run: node tests/cross-network.cjs
