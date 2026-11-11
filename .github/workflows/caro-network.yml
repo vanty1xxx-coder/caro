@@ -1,8 +1,5 @@
 name: Caro cross-network verification
 on:
-  push:
-    paths:
-      - '.github/workflows/caro-network.yml'
   workflow_dispatch:
     inputs:
       room:
@@ -18,5 +15,5 @@ jobs:
       - uses: actions/checkout@v4
       - name: Verify a real room from a separate network
         env:
-          CARO_ROOM: ${{ inputs.room || 'WVV8UZ' }}
+          CARO_ROOM: ${{ inputs.room }}
         run: node tests/cross-network.cjs
