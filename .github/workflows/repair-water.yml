@@ -16,7 +16,7 @@ jobs:
         run: |
           if ! command -v ffmpeg > /dev/null; then sudo apt-get update && sudo apt-get install -y ffmpeg; fi
           ffprobe -v error -show_entries format=duration,start_time -of json /tmp/water.ogg
-          ffmpeg -y -hide_banner -loglevel warning -i /tmp/water.ogg -filter_complex "[0:a]asetpts=PTS-STARTPTS,asplit[a][b];[a]atrim=start=1,asetpts=PTS-STARTPTS[body];[b]atrim=end=1,asetpts=PTS-STARTPTS[head];[body][head]acrossfade=d=1:c1=tri:c2=tri[out]" -map "[out]" -codec:a libmp3lame -b:a 128k assets/music/water.mp3
+          ffmpeg -y -hide_banner -loglevel warning -i /tmp/water.ogg -filter_complex "[0:a]asetpts=PTS-STARTPTS,asplit[a][b];[a][b]acrossfade=d=1:c1=tri:c2=tri,atrim=start=1:end=31.028146,asetpts=PTS-STARTPTS[out]" -map "[out]" -codec:a libmp3lame -b:a 128k assets/music/water.mp3
           ffprobe -v error -show_entries format=duration,size -of json assets/music/water.mp3 > /tmp/probe.json
           node -e "const p=require('/tmp/probe.json').format;console.log(p);if(Number(p.duration)<15||Number(p.size)<100000)process.exit(1)"
       - name: Commit verified water audio
