@@ -1,0 +1,86 @@
+name: Finish Caro soundtrack and publish
+on:
+  push:
+    paths: ['.github/workflows/finish-soundtrack.yml']
+permissions:
+  contents: write
+  actions: read
+  pages: write
+  id-token: write
+concurrency:
+  group: caro-soundtrack-release
+  cancel-in-progress: false
+jobs:
+  integrate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Restore completed verified soundtrack
+        uses: actions/download-artifact@v4
+        with:
+          name: verified-soundtrack
+          run-id: 43386637643
+          github-token: ${{ github.token }}
+          path: assets/music/v2
+      - name: Verify audio files and catalog
+        run: |
+          if ! command -v ffmpeg >/dev/null 2>&1; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq ffmpeg
+          fi
+          python <<'PY'
+          import json,pathlib,hashlib,subprocess
+          catalog=json.loads(pathlib.Path('assets/music/v2/catalog.json').read_text())
+          assert len(catalog)==24
+          for item in catalog:
+              path=pathlib.Path(item['path'])
+              assert path.is_file(),str(path)
+              assert hashlib.sha256(path.read_bytes()).hexdigest()==item['sha256'],str(path)
+              subprocess.run(['ffmpeg','-v','error','-xerror','-i',str(path),'-f','null','-'],check=True)
+          print('PASS: all 24 audio hashes match and files decode completely')
+          PY
+      - name: Integrate new playlists and credits
+        run: |
+          python scripts/finish_soundtrack.py
+          node tests/music-playback.cjs index.html
+          node tests/turn-clock.cjs index.html
+          python <<'PY'
+          import pathlib,re
+          text=pathlib.Path('index.html').read_text()
+          scripts=re.findall(r'<script>(.*?)</script>',text,re.S)
+          for i,script in enumerate(scripts):
+              path=pathlib.Path('/tmp/caro-check-'+str(i)+'.js');path.write_text(script)
+              import subprocess
+              subprocess.run(['node','--check',str(path)],check=True)
+          PY
+      - name: Save completed app and audio together
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html assets/music/v2
+          if ! git diff --cached --quiet; then
+            git commit -m 'Complete Caro soundtrack with five new playlists and verified full-length audio'
+            git push origin HEAD:main
+          fi
+      - name: Prepare website
+        run: |
+          mkdir -p _site
+          cp index.html _site/index.html
+          cp -R assets _site/assets
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+  deploy:
+    needs: integrate
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publish completed website
+        id: deployment
+        uses: actions/deploy-pages@v4
+
