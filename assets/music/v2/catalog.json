@@ -1,0 +1,242 @@
+[
+  {
+    "title": "EDM Detection Mode",
+    "path": "assets/music/v2/ncs-1.mp3",
+    "duration": 365.736,
+    "bytes": 8778782,
+    "sha256": "334ba82b79cc68783285e066a588ed991f528dd955c3e52925ef7871181609b8",
+    "source": "https://incompetech.com/agent-section/",
+    "changes": "Loudness normalization",
+    "originalTitle": "EDM Detection Mode"
+  },
+  {
+    "title": "Club Diver",
+    "path": "assets/music/v2/ncs-2.mp3",
+    "duration": 145.728,
+    "bytes": 3498523,
+    "sha256": "ac2282ccf7c3bbd986cba5655e67acbb00a62791f88791a776d09dee3af7ba24",
+    "source": "https://incompetech.com/agent-section/",
+    "changes": "Loudness normalization",
+    "originalTitle": "Club Diver"
+  },
+  {
+    "title": "Cipher",
+    "path": "assets/music/v2/ncs-3.mp3",
+    "duration": 231.288,
+    "bytes": 5551980,
+    "sha256": "d18ecdd2bc9efef9c4d3e86da256a57123990bf9d5028d0a3d0c14b40afc0db3",
+    "source": "https://incompetech.com/agent-section/",
+    "changes": "Loudness normalization",
+    "originalTitle": "Cipher"
+  },
+  {
+    "title": "District Four",
+    "path": "assets/music/v2/ncs-4.mp3",
+    "duration": 248.28,
+    "bytes": 5959753,
+    "sha256": "a3fa8d8962b0ac3291dd4c33c024217e9ad0c9c2dbf85653e5e68a664d094c39",
+    "source": "https://incompetech.com/agent-section/",
+    "changes": "Loudness normalization",
+    "originalTitle": "District Four"
+  },
+  {
+    "title": "Killing Time",
+    "path": "assets/music/v2/ncs-5.mp3",
+    "duration": 204.096,
+    "bytes": 5142272,
+    "sha256": "2b59dffeb9a9a1a3f82952fdc7009704b68a52aeefc1e6d117c709f918ab6133",
+    "source": "https://incompetech.com/agent-section/",
+    "changes": "Loudness normalization",
+    "originalTitle": "Killing Time"
+  },
+  {
+    "title": "Crinoline Dreams",
+    "path": "assets/music/v2/violin-1.mp3",
+    "duration": 246.48,
+    "bytes": 5916632,
+    "sha256": "e0b90961f22c25b72b30509ec184b170d22950d4a3ffe8ec802d0f584db9c6d3",
+    "source": "https://incompetech.com/agent-section/",
+    "changes": "Loudness normalization",
+    "originalTitle": "Crinoline Dreams"
+  },
+  {
+    "title": "Thinking Music",
+    "path": "assets/music/v2/violin-2.mp3",
+    "duration": 195.936,
+    "bytes": 4703558,
+    "sha256": "16df9c37b87e3fc3235e59a006ee146da28fb98edeea7112f713bfed4577449d",
+    "source": "https://incompetech.com/agent-section/",
+    "changes": "Loudness normalization",
+    "originalTitle": "Thinking Music"
+  },
+  {
+    "title": "Magic Forest",
+    "path": "assets/music/v2/violin-3.mp3",
+    "duration": 260.112,
+    "bytes": 6243762,
+    "sha256": "d70849701dbf672eb91296dda5131953e492f3e6ac4445afc4fb172158c38171",
+    "source": "https://incompetech.com/agent-section/",
+    "changes": "Loudness normalization",
+    "originalTitle": "Magic Forest"
+  },
+  {
+    "title": "String Impromptu Number 1",
+    "path": "assets/music/v2/violin-4.mp3",
+    "duration": 374.112,
+    "bytes": 8979795,
+    "sha256": "dd47c6b5e807926d372a4ed2ec4b5f4955cdf9578ef5dd1ef702133b01dc05f6",
+    "source": "https://incompetech.com/agent-section/",
+    "changes": "Loudness normalization",
+    "originalTitle": "String Impromptu Number 1"
+  },
+  {
+    "title": "Trio for Piano Violin and Viola",
+    "path": "assets/music/v2/violin-5.mp3",
+    "duration": 84.912,
+    "bytes": 2038949,
+    "sha256": "6a3002eb7cb3526f15429dffe5cac4b1b48039682035c557f9891ef2692a84dd",
+    "source": "https://incompetech.com/agent-section/",
+    "changes": "Loudness normalization",
+    "originalTitle": "Trio for Piano Violin and Viola"
+  },
+  {
+    "title": "Gymnopedie No. 1",
+    "path": "assets/music/v2/piano-1.mp3",
+    "duration": 187.128,
+    "bytes": 4492134,
+    "sha256": "c058d1cd7fb4ac0f3cabe3668b082a95812dff49932fb5bcd4220393906617fe",
+    "source": "https://incompetech.com/agent-section/",
+    "changes": "Loudness normalization",
+    "originalTitle": "Gymnopedie No. 1"
+  },
+  {
+    "title": "Calmant",
+    "path": "assets/music/v2/piano-2.mp3",
+    "duration": 204.096,
+    "bytes": 4899355,
+    "sha256": "b385e04c63088b1fc4dc0a3653bc7a8f83a84184b6be9bf761a6e1501ca4f43b",
+    "source": "https://incompetech.com/agent-section/",
+    "changes": "Loudness normalization",
+    "originalTitle": "Calmant"
+  },
+  {
+    "title": "Danse Morialta",
+    "path": "assets/music/v2/piano-3.mp3",
+    "duration": 236.376,
+    "bytes": 5674102,
+    "sha256": "b94259db945d2d8850ee759bacf0839924134e21b8120452a953b61544dee170",
+    "source": "https://incompetech.com/agent-section/",
+    "changes": "Loudness normalization",
+    "originalTitle": "Danse Morialta"
+  },
+  {
+    "title": "Promises to Keep",
+    "path": "assets/music/v2/piano-4.mp3",
+    "duration": 304.104,
+    "bytes": 7299620,
+    "sha256": "8f46b8c6299597667e4cf6b5f068854f9f4bb4325e0c4186b5467e8468cae2f5",
+    "source": "https://incompetech.com/agent-section/",
+    "changes": "Loudness normalization",
+    "originalTitle": "Promises to Keep"
+  },
+  {
+    "title": "A Very Brady Special",
+    "path": "assets/music/v2/piano-5.mp3",
+    "duration": 388.344,
+    "bytes": 9832107,
+    "sha256": "14b4a9f127ad27c561bc98363a9019bc76878f54234bf48067dc04cb41f92ee7",
+    "source": "https://incompetech.com/agent-section/",
+    "changes": "Loudness normalization",
+    "originalTitle": "A Very Brady Special"
+  },
+  {
+    "title": "Night in Venice",
+    "path": "assets/music/v2/saxophone-2.mp3",
+    "duration": 218.184,
+    "bytes": 5748323,
+    "sha256": "a86851a7242d8653a3a100092e4ad2acd71011e36eae1853e81d7a66c6203b3a",
+    "source": "https://incompetech.com/agent-section/",
+    "changes": "Loudness normalization",
+    "originalTitle": "Night in Venice"
+  },
+  {
+    "title": "On Hold for You",
+    "path": "assets/music/v2/saxophone-3.mp3",
+    "duration": 218.184,
+    "bytes": 5237504,
+    "sha256": "b10548142f95e3f2a3ba5a2957cbf4651a1cf31e981e2991ec47e8b602e45a79",
+    "source": "https://incompetech.com/agent-section/",
+    "changes": "Loudness normalization",
+    "originalTitle": "On Hold for You"
+  },
+  {
+    "title": "Night on the Docks - Sax",
+    "path": "assets/music/v2/saxophone-4.mp3",
+    "duration": 174.096,
+    "bytes": 4320843,
+    "sha256": "ce92d05e8b77e09a788f66c9aa7565c19b2d769561f197a4f7c7b9210038d5be",
+    "source": "https://incompetech.com/agent-section/",
+    "changes": "Loudness normalization",
+    "originalTitle": "Night on the Docks - Sax"
+  },
+  {
+    "title": "Just As Soon",
+    "path": "assets/music/v2/saxophone-5.mp3",
+    "duration": 228.144,
+    "bytes": 5757936,
+    "sha256": "cc5743c4355b462bceb9fabc6824e77c049bb42c5b796b618faed5ef766a812e",
+    "source": "https://incompetech.com/agent-section/",
+    "changes": "Loudness normalization",
+    "originalTitle": "Just As Soon"
+  },
+  {
+    "title": "Raving Energy (faster) (Vinahouse Mix)",
+    "path": "assets/music/v2/vinahouse-1.mp3",
+    "duration": 229.944,
+    "bytes": 5519277,
+    "sha256": "0bb38cf18e010c75a81a9795ed94d454a28ab8c947d671c4a651a38a99e6db51",
+    "source": "https://incompetech.com/agent-section/",
+    "changes": "Vinahouse drums, offbeat bass, breaks, tempo, sidechain, mastering",
+    "originalTitle": "Raving Energy (faster)"
+  },
+  {
+    "title": "Laser Groove (Vinahouse Mix)",
+    "path": "assets/music/v2/vinahouse-2.mp3",
+    "duration": 168.096,
+    "bytes": 4034925,
+    "sha256": "91e24bb454bbea01358ce73b144f5be8a1fd83e7eb2d7f8e3616735ca5de48c8",
+    "source": "https://incompetech.com/agent-section/",
+    "changes": "Vinahouse drums, offbeat bass, breaks, tempo, sidechain, mastering",
+    "originalTitle": "Laser Groove"
+  },
+  {
+    "title": "Show Your Moves (Vinahouse Mix)",
+    "path": "assets/music/v2/vinahouse-3.mp3",
+    "duration": 206.28,
+    "bytes": 4951341,
+    "sha256": "9d402eb2a295c000cdb43e0da2dc6b8ae0c5924360a97fb1f316cede0822f40e",
+    "source": "https://incompetech.com/agent-section/",
+    "changes": "Vinahouse drums, offbeat bass, breaks, tempo, sidechain, mastering",
+    "originalTitle": "Show Your Moves"
+  },
+  {
+    "title": "Shiny Tech (Vinahouse Mix)",
+    "path": "assets/music/v2/vinahouse-4.mp3",
+    "duration": 219.504,
+    "bytes": 5268717,
+    "sha256": "c123fee90f6f3d701c60c116bad4668a50df9739af0a54747a679c8568b55199",
+    "source": "https://incompetech.com/agent-section/",
+    "changes": "Vinahouse drums, offbeat bass, breaks, tempo, sidechain, mastering",
+    "originalTitle": "Shiny Tech"
+  },
+  {
+    "title": "Double O (Vinahouse Mix)",
+    "path": "assets/music/v2/vinahouse-5.mp3",
+    "duration": 231.624,
+    "bytes": 5559597,
+    "sha256": "bb0a150c7892ea6ef8913dbbf167b7986af73c99607236cbe5cf81bfd701df74",
+    "source": "https://incompetech.com/agent-section/",
+    "changes": "Vinahouse drums, offbeat bass, breaks, tempo, sidechain, mastering",
+    "originalTitle": "Double O"
+  }
+]
