@@ -1,0 +1,63 @@
+name: Render verified music files
+on:
+  push:
+    paths: ['.github/workflows/render-soundtrack.yml']
+permissions:
+  contents: read
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      SOURCES: '{"downloads":[{"path":"assets/music/v2/ncs-1.mp3","title":"EDM Detection Mode","url":"https://incompetech.com/music/royalty-free/mp3-royaltyfree/EDM%20Detection%20Mode.mp3","provider":"Kevin MacLeod","expectedDuration":"00:06:06"},{"path":"assets/music/v2/ncs-2.mp3","title":"Club Diver","url":"https://incompetech.com/music/royalty-free/mp3-royaltyfree/Club%20Diver.mp3","provider":"Kevin MacLeod","expectedDuration":"00:02:26"},{"path":"assets/music/v2/ncs-3.mp3","title":"Cipher","url":"https://incompetech.com/music/royalty-free/mp3-royaltyfree/Cipher2.mp3","provider":"Kevin MacLeod","expectedDuration":"00:03:51"},{"path":"assets/music/v2/ncs-4.mp3","title":"District Four","url":"https://incompetech.com/music/royalty-free/mp3-royaltyfree/District%20Four.mp3","provider":"Kevin MacLeod","expectedDuration":"00:04:08"},{"path":"assets/music/v2/ncs-5.mp3","title":"Killing Time","url":"https://incompetech.com/music/royalty-free/mp3-royaltyfree/Killing%20Time.mp3","provider":"Kevin MacLeod","expectedDuration":"00:03:24"},{"path":"assets/music/v2/violin-1.mp3","title":"Crinoline Dreams","url":"https://incompetech.com/music/royalty-free/mp3-royaltyfree/Crinoline%20Dreams.mp3","provider":"Kevin MacLeod","expectedDuration":"00:04:06"},{"path":"assets/music/v2/violin-2.mp3","title":"Thinking Music","url":"https://incompetech.com/music/royalty-free/mp3-royaltyfree/Thinking%20Music.mp3","provider":"Kevin MacLeod","expectedDuration":"00:03:16"},{"path":"assets/music/v2/violin-3.mp3","title":"Magic Forest","url":"https://incompetech.com/music/royalty-free/mp3-royaltyfree/Magic%20Forest.mp3","provider":"Kevin MacLeod","expectedDuration":"00:04:20"},{"path":"assets/music/v2/violin-4.mp3","title":"String Impromptu Number 1","url":"https://incompetech.com/music/royalty-free/mp3-royaltyfree/String%20Impromptu%20Number%201.mp3","provider":"Kevin MacLeod","expectedDuration":"00:06:14"},{"path":"assets/music/v2/violin-5.mp3","title":"Trio for Piano Violin and Viola","url":"https://incompetech.com/music/royalty-free/mp3-royaltyfree/Trio%20for%20Piano%20Violin%20and%20Viola.mp3","provider":"Kevin MacLeod","expectedDuration":"00:01:25"},{"path":"assets/music/v2/piano-1.mp3","title":"Gymnopedie No. 1","url":"https://incompetech.com/music/royalty-free/mp3-royaltyfree/Gymnopedie%20No%201.mp3","provider":"Kevin MacLeod","expectedDuration":"00:03:07"},{"path":"assets/music/v2/piano-2.mp3","title":"Calmant","url":"https://incompetech.com/music/royalty-free/mp3-royaltyfree/Calmant.mp3","provider":"Kevin MacLeod","expectedDuration":"00:03:24"},{"path":"assets/music/v2/piano-3.mp3","title":"Danse Morialta","url":"https://incompetech.com/music/royalty-free/mp3-royaltyfree/Danse%20Morialta.mp3","provider":"Kevin MacLeod","expectedDuration":"00:03:56"},{"path":"assets/music/v2/piano-4.mp3","title":"Promises to Keep","url":"https://incompetech.com/music/royalty-free/mp3-royaltyfree/Promises%20to%20Keep.mp3","provider":"Kevin MacLeod","expectedDuration":"00:05:04"},{"path":"assets/music/v2/piano-5.mp3","title":"A Very Brady Special","url":"https://incompetech.com/music/royalty-free/mp3-royaltyfree/A%20Very%20Brady%20Special.mp3","provider":"Kevin MacLeod","expectedDuration":"00:06:28"},{"path":"assets/music/v2/saxophone-2.mp3","title":"Night in Venice","url":"https://incompetech.com/music/royalty-free/mp3-royaltyfree/Night%20in%20Venice.mp3","provider":"Kevin MacLeod","expectedDuration":"00:03:38"},{"path":"assets/music/v2/saxophone-3.mp3","title":"On Hold for You","url":"https://incompetech.com/music/royalty-free/mp3-royaltyfree/On%20Hold%20for%20You.mp3","provider":"Kevin MacLeod","expectedDuration":"00:03:38"},{"path":"assets/music/v2/saxophone-4.mp3","title":"Night on the Docks - Sax","url":"https://incompetech.com/music/royalty-free/mp3-royaltyfree/Night%20on%20the%20Docks%20-%20Sax.mp3","provider":"Kevin MacLeod","expectedDuration":"00:02:54"},{"path":"assets/music/v2/saxophone-5.mp3","title":"Just As Soon","url":"https://incompetech.com/music/royalty-free/mp3-royaltyfree/Just%20As%20Soon.mp3","provider":"Kevin MacLeod","expectedDuration":"00:03:48"}],"remixes":[{"index":1,"title":"Raving Energy (faster) (Vinahouse Mix)","originalTitle":"Raving Energy (faster)","bpm":134,"url":"https://incompetech.com/music/royalty-free/mp3-royaltyfree/Raving%20Energy%20(faster).mp3","path":"assets/music/v2/vinahouse-1.mp3"},{"index":2,"title":"Laser Groove (Vinahouse Mix)","originalTitle":"Laser Groove","bpm":140,"url":"https://incompetech.com/music/royalty-free/mp3-royaltyfree/Laser%20Groove.mp3","path":"assets/music/v2/vinahouse-2.mp3"},{"index":3,"title":"Show Your Moves (Vinahouse Mix)","originalTitle":"Show Your Moves","bpm":136,"url":"https://incompetech.com/music/royalty-free/mp3-royaltyfree/Show%20Your%20Moves.mp3","path":"assets/music/v2/vinahouse-3.mp3"},{"index":4,"title":"Shiny Tech (Vinahouse Mix)","originalTitle":"Shiny Tech","bpm":138,"url":"https://incompetech.com/music/royalty-free/mp3-royaltyfree/Shiny%20Tech.mp3","path":"assets/music/v2/vinahouse-4.mp3"},{"index":5,"title":"Double O (Vinahouse Mix)","originalTitle":"Double O","bpm":140,"url":"https://incompetech.com/music/royalty-free/mp3-royaltyfree/Double%20O.mp3","path":"assets/music/v2/vinahouse-5.mp3"}]}'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install audio tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg
+          python -m pip install --quiet numpy scipy soundfile librosa
+      - name: Download licensed source recordings
+        run: |
+          mkdir -p assets/music/v2
+          python <<'PY'
+          import os,json,urllib.request,pathlib
+          s=json.loads(os.environ['SOURCES'])
+          for i,t in enumerate(s['downloads']):
+              with urllib.request.urlopen(t['url'],timeout=90) as r: b=r.read()
+              assert len(b)>100000,t['title']
+              pathlib.Path('/tmp/song-'+str(i)+'.mp3').write_bytes(b)
+              print(t['title'],len(b),flush=True)
+          for t in s['remixes']:
+              with urllib.request.urlopen(t['url'],timeout=90) as r: b=r.read()
+              pathlib.Path('/tmp/vina-'+str(t['index'])+'.mp3').write_bytes(b)
+          PY
+      - name: Master the source recordings
+        run: |
+          python <<'PY'
+          import os,json,subprocess
+          for i,t in enumerate(json.loads(os.environ['SOURCES'])['downloads']):
+              subprocess.run(['ffmpeg','-y','-v','error','-i','/tmp/song-'+str(i)+'.mp3','-af','loudnorm=I=-16:TP=-1.2:LRA=11','-c:a','libmp3lame','-b:a','192k',t['path']],check=True)
+          PY
+      - name: Arrange five Vinahouse mixes
+        run: python scripts/remix_music.py
+      - name: Verify finished audio
+        run: |
+          python <<'PY'
+          import os,json,subprocess,pathlib,hashlib
+          s=json.loads(os.environ['SOURCES']);reports=[];hashes=set()
+          for t in s['downloads']+s['remixes']:
+              p=pathlib.Path(t['path'])
+              info=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_entries','format=duration,size','-of','json',str(p)]))['format']
+              duration=float(info['duration']);assert 70<duration<600,(t['title'],duration)
+              digest=hashlib.sha256(p.read_bytes()).hexdigest();assert digest not in hashes;hashes.add(digest)
+              reports.append({'title':t['title'],'path':t['path'],'duration':duration,'bytes':p.stat().st_size,'sha256':digest,'source':'https://incompetech.com/agent-section/','changes':'Vinahouse drums, offbeat bass, breaks, tempo, sidechain, mastering' if 'originalTitle' in t else 'Loudness normalization','originalTitle':t.get('originalTitle',t['title'])})
+          assert len(reports)==24
+          pathlib.Path('assets/music/v2/catalog.json').write_text(json.dumps(reports,indent=2,ensure_ascii=False))
+          print('PASS: 24 distinct full-length mastered files')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: verified-soundtrack
+          path: assets/music/v2
+          retention-days: 7
