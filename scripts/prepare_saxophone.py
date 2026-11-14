@@ -24,14 +24,17 @@ def render(item):
         source = folder / 'source'
         for attempt in range(3):
             try:
-                with urllib.request.urlopen(item['url'], timeout=90) as response, source.open('wb') as out:
+                request = urllib.request.Request(item['url'], headers={
+                    'User-Agent': 'Mozilla/5.0', 'Referer': item['sourceUrl']})
+                with urllib.request.urlopen(request, timeout=90) as response, source.open('wb') as out:
                     while chunk := response.read(1024 * 1024):
                         out.write(chunk)
                 assert source.stat().st_size > 100000, item['title']
                 break
-            except Exception:
+            except Exception as error:
+                print('DOWNLOAD RETRY ' + item['title'] + ': ' + str(error), flush=True)
                 if attempt == 2:
-                    raise
+                    raise RuntimeError('Download failed: ' + item['title'] + ' ' + item['url']) from error
                 time.sleep(3 * (attempt + 1))
         if item.get('archiveMember'):
             with zipfile.ZipFile(source) as archive:
@@ -99,7 +102,17 @@ if __name__ == '__main__':
     sources = json.loads((ROOT / 'scripts/saxophone-sources.json').read_text(encoding='utf-8'))
     assert len(sources) == 20 and len({t['url'] for t in sources}) == 20
     assert len({t['title'] for t in sources}) == 20
-    if '--preview' in sys.argv:
+    if '--preflight' in sys.argv:
+        for item in sources:
+            request = urllib.request.Request(item['url'], headers={
+                'User-Agent': 'Mozilla/5.0', 'Referer': item['sourceUrl']})
+            try:
+                with urllib.request.urlopen(request, timeout=45) as response:
+                    assert len(response.read(1024)) > 100
+                    print('SOURCE OK ' + item['title'], flush=True)
+            except Exception as error:
+                raise RuntimeError('Source preflight failed: ' + item['title']) from error
+    elif '--preview' in sys.argv:
         integrate(sources)
     else:
         with concurrent.futures.ThreadPoolExecutor(max_workers=3) as pool:
