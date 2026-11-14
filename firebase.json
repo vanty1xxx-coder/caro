@@ -1,0 +1,9 @@
+{
+  "database": [
+    {
+      "instance": "caro-36050-default-rtdb",
+      "rules": "database.rules.json"
+    }
+  ]
+}
+

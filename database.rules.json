@@ -1,0 +1,109 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "rooms": {
+      "$room": {
+        ".read": "auth != null && $room.matches(/^[A-Z0-9]{6}$/)",
+        ".write": "auth != null && !data.exists() && newData.child('host').val() === auth.uid && $room.matches(/^[A-Z0-9]{6}$/)",
+        ".validate": "newData.hasChildren(['host','created','closed','game'])",
+        "host": {
+          ".validate": "newData.isString() && newData.val() === auth.uid && !data.exists()"
+        },
+        "created": {
+          ".validate": "newData.isNumber() && !data.exists() && newData.val() === now"
+        },
+        "closed": {
+          ".write": "auth != null && (root.child('rooms').child($room).child('host').val() === auth.uid || root.child('rooms').child($room).child('guest').val() === auth.uid) && newData.isBoolean() && (newData.val() === true || (data.val() === true && newData.val() === false && root.child('rooms').child($room).child('created').val() > now - 86400000))",
+          ".validate": "newData.isBoolean()"
+        },
+        "guest": {
+          ".write": "auth != null && !data.exists() && newData.parent().child('host').exists() && newData.parent().child('host').val() !== auth.uid && newData.parent().child('closed').val() === false && newData.parent().child('created').val() > now - 86400000",
+          ".validate": "newData.isString() && newData.val() === auth.uid"
+        },
+        "game": {
+          ".write": "auth != null && (root.child('rooms').child($room).child('host').val() === auth.uid || root.child('rooms').child($room).child('guest').val() === auth.uid) && root.child('rooms').child($room).child('closed').val() === false && root.child('rooms').child($room).child('created').val() > now - 86400000 && newData.exists()",
+          ".validate": "(newData.hasChildren(['round','count','turn','last','winner','startedAt']) && ((!data.exists() && newData.child('round').val() === 0 && newData.child('count').val() === 0 && newData.child('turn').val() === 'X' && newData.child('last').val() === '-1' && newData.child('winner').val() === '' && newData.child('board').hasChildren([\"0\",\"1\",\"2\",\"3\",\"4\",\"5\",\"6\",\"7\",\"8\",\"9\",\"10\",\"11\",\"12\",\"13\",\"14\",\"15\",\"16\",\"17\",\"18\",\"19\",\"20\",\"21\",\"22\",\"23\",\"24\",\"25\",\"26\",\"27\",\"28\",\"29\",\"30\",\"31\",\"32\",\"33\",\"34\",\"35\",\"36\",\"37\",\"38\",\"39\",\"40\",\"41\",\"42\",\"43\",\"44\",\"45\",\"46\",\"47\",\"48\",\"49\",\"50\",\"51\",\"52\",\"53\",\"54\",\"55\",\"56\",\"57\",\"58\",\"59\",\"60\",\"61\",\"62\",\"63\",\"64\",\"65\",\"66\",\"67\",\"68\",\"69\",\"70\",\"71\",\"72\",\"73\",\"74\",\"75\",\"76\",\"77\",\"78\",\"79\",\"80\",\"81\",\"82\",\"83\",\"84\",\"85\",\"86\",\"87\",\"88\",\"89\",\"90\",\"91\",\"92\",\"93\",\"94\",\"95\",\"96\",\"97\",\"98\",\"99\",\"100\",\"101\",\"102\",\"103\",\"104\",\"105\",\"106\",\"107\",\"108\",\"109\",\"110\",\"111\",\"112\",\"113\",\"114\",\"115\",\"116\",\"117\",\"118\",\"119\",\"120\",\"121\",\"122\",\"123\",\"124\",\"125\",\"126\",\"127\",\"128\",\"129\",\"130\",\"131\",\"132\",\"133\",\"134\",\"135\",\"136\",\"137\",\"138\",\"139\",\"140\",\"141\",\"142\",\"143\",\"144\",\"145\",\"146\",\"147\",\"148\",\"149\",\"150\",\"151\",\"152\",\"153\",\"154\",\"155\",\"156\",\"157\",\"158\",\"159\",\"160\",\"161\",\"162\",\"163\",\"164\",\"165\",\"166\",\"167\",\"168\",\"169\",\"170\",\"171\",\"172\",\"173\",\"174\",\"175\",\"176\",\"177\",\"178\",\"179\",\"180\",\"181\",\"182\",\"183\",\"184\",\"185\",\"186\",\"187\",\"188\",\"189\",\"190\",\"191\",\"192\",\"193\",\"194\",\"195\",\"196\",\"197\",\"198\",\"199\",\"200\",\"201\",\"202\",\"203\",\"204\",\"205\",\"206\",\"207\",\"208\",\"209\",\"210\",\"211\",\"212\",\"213\",\"214\",\"215\",\"216\",\"217\",\"218\",\"219\",\"220\",\"221\",\"222\",\"223\",\"224\"]) && newData.child('startedAt').val() === now) || (data.exists() && data.parent().child('rematch/round').val() === data.child('round').val() && data.parent().child('rematch/by').isString() && data.parent().child('rematch/by').val() !== auth.uid && newData.child('round').val() === data.child('round').val()+1 && newData.child('count').val() === 0 && ((newData.child('round').val() % 2 === 0 && newData.child('turn').val() === 'X') || (newData.child('round').val() % 2 === 1 && newData.child('turn').val() === 'O')) && newData.child('last').val() === '-1' && newData.child('winner').val() === '' && newData.child('board').hasChildren([\"0\",\"1\",\"2\",\"3\",\"4\",\"5\",\"6\",\"7\",\"8\",\"9\",\"10\",\"11\",\"12\",\"13\",\"14\",\"15\",\"16\",\"17\",\"18\",\"19\",\"20\",\"21\",\"22\",\"23\",\"24\",\"25\",\"26\",\"27\",\"28\",\"29\",\"30\",\"31\",\"32\",\"33\",\"34\",\"35\",\"36\",\"37\",\"38\",\"39\",\"40\",\"41\",\"42\",\"43\",\"44\",\"45\",\"46\",\"47\",\"48\",\"49\",\"50\",\"51\",\"52\",\"53\",\"54\",\"55\",\"56\",\"57\",\"58\",\"59\",\"60\",\"61\",\"62\",\"63\",\"64\",\"65\",\"66\",\"67\",\"68\",\"69\",\"70\",\"71\",\"72\",\"73\",\"74\",\"75\",\"76\",\"77\",\"78\",\"79\",\"80\",\"81\",\"82\",\"83\",\"84\",\"85\",\"86\",\"87\",\"88\",\"89\",\"90\",\"91\",\"92\",\"93\",\"94\",\"95\",\"96\",\"97\",\"98\",\"99\",\"100\",\"101\",\"102\",\"103\",\"104\",\"105\",\"106\",\"107\",\"108\",\"109\",\"110\",\"111\",\"112\",\"113\",\"114\",\"115\",\"116\",\"117\",\"118\",\"119\",\"120\",\"121\",\"122\",\"123\",\"124\",\"125\",\"126\",\"127\",\"128\",\"129\",\"130\",\"131\",\"132\",\"133\",\"134\",\"135\",\"136\",\"137\",\"138\",\"139\",\"140\",\"141\",\"142\",\"143\",\"144\",\"145\",\"146\",\"147\",\"148\",\"149\",\"150\",\"151\",\"152\",\"153\",\"154\",\"155\",\"156\",\"157\",\"158\",\"159\",\"160\",\"161\",\"162\",\"163\",\"164\",\"165\",\"166\",\"167\",\"168\",\"169\",\"170\",\"171\",\"172\",\"173\",\"174\",\"175\",\"176\",\"177\",\"178\",\"179\",\"180\",\"181\",\"182\",\"183\",\"184\",\"185\",\"186\",\"187\",\"188\",\"189\",\"190\",\"191\",\"192\",\"193\",\"194\",\"195\",\"196\",\"197\",\"198\",\"199\",\"200\",\"201\",\"202\",\"203\",\"204\",\"205\",\"206\",\"207\",\"208\",\"209\",\"210\",\"211\",\"212\",\"213\",\"214\",\"215\",\"216\",\"217\",\"218\",\"219\",\"220\",\"221\",\"222\",\"223\",\"224\"]) && newData.child('startedAt').val() === now) || (data.exists() && data.parent().child('guest').exists() && data.child('winner').val() === '' && newData.child('round').val() === data.child('round').val() && newData.child('startedAt').val() === data.child('startedAt').val() && newData.child('count').val() === data.child('count').val()+1 && (!data.child('turnAt').exists() || (data.child('turnAt').val() > 0 && now < data.child('turnAt').val()+15000)) && newData.child('turnAt').val() === now && data.child('board').child(newData.child('last').val()).val() === '-' && newData.child('board').child(newData.child('last').val()).val() === data.child('turn').val() && ((data.child('turn').val() === 'X' && auth.uid === data.parent().child('host').val() && newData.child('turn').val() === 'O') || (data.child('turn').val() === 'O' && auth.uid === data.parent().child('guest').val() && newData.child('turn').val() === 'X'))))) || (data.exists() && data.child('winner').val() === '' && data.parent().child('guest').exists() && data.parent().child('presence').child(data.parent().child('host').val()).val() === true && data.parent().child('presence').child(data.parent().child('guest').val()).val() === true && newData.child('round').val() === data.child('round').val() && newData.child('count').val() === data.child('count').val() && newData.child('last').val() === data.child('last').val() && newData.child('winner').val() === data.child('winner').val() && newData.child('startedAt').val() === data.child('startedAt').val() && newData.child('turnAt').val() === now && ((!data.child('turnAt').exists() && newData.child('turn').val() === data.child('turn').val()) || (data.child('turnAt').val() > 0 && now >= data.child('turnAt').val()+15000 && ((data.child('turn').val() === 'X' && newData.child('turn').val() === 'O') || (data.child('turn').val() === 'O' && newData.child('turn').val() === 'X')))))",
+          "turn": {
+            ".validate": "newData.val() === 'X' || newData.val() === 'O'"
+          },
+          "count": {
+            ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 225 && newData.val() % 1 === 0"
+          },
+          "round": {
+            ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() % 1 === 0"
+          },
+          "last": {
+            ".validate": "newData.isString() && (newData.val() === '-1' || newData.val().matches(/^([0-9]|[1-9][0-9]|1[0-9]{2}|2[01][0-9]|22[0-4])$/))"
+          },
+          "winner": {
+            ".validate": "newData.val() === '' || newData.val() === 'X' || newData.val() === 'O' || newData.val() === 'draw'"
+          },
+          "startedAt": {
+            ".validate": "newData.isNumber() && newData.val() <= now"
+          },
+          "board": {
+            ".validate": "newData.hasChildren([\"0\",\"1\",\"2\",\"3\",\"4\",\"5\",\"6\",\"7\",\"8\",\"9\",\"10\",\"11\",\"12\",\"13\",\"14\",\"15\",\"16\",\"17\",\"18\",\"19\",\"20\",\"21\",\"22\",\"23\",\"24\",\"25\",\"26\",\"27\",\"28\",\"29\",\"30\",\"31\",\"32\",\"33\",\"34\",\"35\",\"36\",\"37\",\"38\",\"39\",\"40\",\"41\",\"42\",\"43\",\"44\",\"45\",\"46\",\"47\",\"48\",\"49\",\"50\",\"51\",\"52\",\"53\",\"54\",\"55\",\"56\",\"57\",\"58\",\"59\",\"60\",\"61\",\"62\",\"63\",\"64\",\"65\",\"66\",\"67\",\"68\",\"69\",\"70\",\"71\",\"72\",\"73\",\"74\",\"75\",\"76\",\"77\",\"78\",\"79\",\"80\",\"81\",\"82\",\"83\",\"84\",\"85\",\"86\",\"87\",\"88\",\"89\",\"90\",\"91\",\"92\",\"93\",\"94\",\"95\",\"96\",\"97\",\"98\",\"99\",\"100\",\"101\",\"102\",\"103\",\"104\",\"105\",\"106\",\"107\",\"108\",\"109\",\"110\",\"111\",\"112\",\"113\",\"114\",\"115\",\"116\",\"117\",\"118\",\"119\",\"120\",\"121\",\"122\",\"123\",\"124\",\"125\",\"126\",\"127\",\"128\",\"129\",\"130\",\"131\",\"132\",\"133\",\"134\",\"135\",\"136\",\"137\",\"138\",\"139\",\"140\",\"141\",\"142\",\"143\",\"144\",\"145\",\"146\",\"147\",\"148\",\"149\",\"150\",\"151\",\"152\",\"153\",\"154\",\"155\",\"156\",\"157\",\"158\",\"159\",\"160\",\"161\",\"162\",\"163\",\"164\",\"165\",\"166\",\"167\",\"168\",\"169\",\"170\",\"171\",\"172\",\"173\",\"174\",\"175\",\"176\",\"177\",\"178\",\"179\",\"180\",\"181\",\"182\",\"183\",\"184\",\"185\",\"186\",\"187\",\"188\",\"189\",\"190\",\"191\",\"192\",\"193\",\"194\",\"195\",\"196\",\"197\",\"198\",\"199\",\"200\",\"201\",\"202\",\"203\",\"204\",\"205\",\"206\",\"207\",\"208\",\"209\",\"210\",\"211\",\"212\",\"213\",\"214\",\"215\",\"216\",\"217\",\"218\",\"219\",\"220\",\"221\",\"222\",\"223\",\"224\"])",
+            "$cell": {
+              ".validate": "$cell.matches(/^([0-9]|[1-9][0-9]|1[0-9]{2}|2[01][0-9]|22[0-4])$/) && ((newData.parent().parent().child('count').val() === 0 && newData.val() === '-') || (newData.val() === data.val()) || (newData.parent().parent().child('count').val() === data.parent().parent().child('count').val()+1 && data.val() === '-' && (newData.val() === 'X' || newData.val() === 'O') && newData.parent().parent().child('last').val() === $cell))"
+            }
+          },
+          "$other": {
+            ".validate": false
+          },
+          "turnAt": {
+            ".validate": "newData.isNumber() && newData.val() <= now"
+          }
+        },
+        "presence": {
+          "$uid": {
+            ".write": "auth != null && (root.child('rooms').child($room).child('host').val() === auth.uid || root.child('rooms').child($room).child('guest').val() === auth.uid) && auth.uid === $uid",
+            ".validate": "newData.isBoolean()"
+          }
+        },
+        "resetRequest": {
+          ".write": "auth != null && (root.child('rooms').child($room).child('host').val() === auth.uid || root.child('rooms').child($room).child('guest').val() === auth.uid) && root.child('rooms').child($room).child('closed').val() === false && root.child('rooms').child($room).child('created').val() > now - 86400000",
+          ".validate": "newData.isNumber() && newData.val() === now"
+        },
+        "messages": {
+          "$message": {
+            ".write": "auth != null && (root.child('rooms').child($room).child('host').val() === auth.uid || root.child('rooms').child($room).child('guest').val() === auth.uid) && root.child('rooms').child($room).child('closed').val() === false && root.child('rooms').child($room).child('created').val() > now - 86400000 && !data.exists() && newData.exists()",
+            ".validate": "newData.hasChildren(['uid','text','at'])",
+            "uid": {
+              ".validate": "newData.val() === auth.uid"
+            },
+            "text": {
+              ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 500"
+            },
+            "at": {
+              ".validate": "newData.isNumber() && newData.val() === now"
+            },
+            "$other": {
+              ".validate": false
+            }
+          }
+        },
+        "$other": {
+          ".validate": false
+        },
+        "rematch": {
+          ".write": "auth != null && (root.child('rooms').child($room).child('host').val() === auth.uid || root.child('rooms').child($room).child('guest').val() === auth.uid) && root.child('rooms').child($room).child('closed').val() === false && root.child('rooms').child($room).child('created').val() > now - 86400000 && ((!newData.exists() && data.exists()) || (!data.exists() || data.child('round').val() !== root.child('rooms').child($room).child('game/round').val()))",
+          ".validate": "newData.hasChildren(['round','by','at'])",
+          "round": {
+            ".validate": "newData.isNumber() && newData.val() === root.child('rooms').child($room).child('game/round').val()"
+          },
+          "by": {
+            ".validate": "newData.val() === auth.uid"
+          },
+          "at": {
+            ".validate": "newData.isNumber() && newData.val() === now"
+          },
+          "$other": {
+            ".validate": false
+          }
+        }
+      }
+    }
+  }
+}
+
