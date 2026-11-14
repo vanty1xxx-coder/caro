@@ -14,7 +14,7 @@
           ".validate": "newData.isNumber() && !data.exists() && newData.val() === now"
         },
         "closed": {
-          ".write": "auth != null && (root.child('rooms').child($room).child('host').val() === auth.uid || root.child('rooms').child($room).child('guest').val() === auth.uid) && newData.isBoolean() && (newData.val() === true || (data.val() === true && newData.val() === false && root.child('rooms').child($room).child('created').val() > now - 86400000))",
+          ".write": "auth != null && (root.child('rooms').child($room).child('host').val() === auth.uid || root.child('rooms').child($room).child('guest').val() === auth.uid) && newData.isBoolean() && (newData.val() === true || (newData.val() === false && root.child('rooms').child($room).child('created').val() > now - 86400000))",
           ".validate": "newData.isBoolean()"
         },
         "guest": {
