@@ -158,7 +158,8 @@
     "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
     "sourceUrl": "https://opengameart.org/content/velvet-sax-three-arangments-solo-band-synth",
     "instrumentEvidence": "Author describes moody future-noir sax composition in3arrangements; jazz band chosen",
-    "path": "assets/music/saxophone/16.mp3"
+    "path": "assets/music/saxophone/16.mp3",
+    "expectedDuration": 55.584
   },
   {
     "title": "Trouble Makers",
@@ -168,7 +169,8 @@
     "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
     "sourceUrl": "https://opengameart.org/node/20012",
     "instrumentEvidence": "Author explicitly says cool/smooth riff-jazz, saxophone solo, live professional-studio recording",
-    "path": "assets/music/saxophone/17.mp3"
+    "path": "assets/music/saxophone/17.mp3",
+    "expectedDuration": 44.016
   },
   {
     "title": "Saxy Interlude (Instrumental)",

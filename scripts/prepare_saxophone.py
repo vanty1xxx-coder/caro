@@ -41,7 +41,11 @@ def render(item):
                 content = archive.read(item['archiveMember'])
             source.write_bytes(content)
         original_duration = probe(source)
-        assert 60 < original_duration < 900, (item['title'], original_duration)
+        expected_duration = item.get('expectedDuration')
+        minimum_duration = 30 if expected_duration is not None else 60
+        assert minimum_duration < original_duration < 900, (item['title'], original_duration)
+        if expected_duration is not None:
+            assert abs(original_duration - expected_duration) < 0.5, (item['title'], 'source duration changed', original_duration)
         source_hash = hashlib.sha256(source.read_bytes()).hexdigest()
         # Two-pass loudness normalization retains dynamics and avoids clipping.
         analysis = subprocess.run(['ffmpeg', '-hide_banner', '-i', str(source), '-af',
