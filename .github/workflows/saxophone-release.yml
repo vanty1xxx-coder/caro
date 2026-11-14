@@ -1,0 +1,60 @@
+name: Publish Saxophone Lounge collection
+on:
+  push:
+    paths: ['.github/workflows/saxophone-release.yml']
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+concurrency:
+  group: caro-saxophone-release
+  cancel-in-progress: false
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Install audio tools if needed
+        run: |
+          if ! command -v ffmpeg >/dev/null 2>&1; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq ffmpeg
+          fi
+      - name: Download, master and verify twenty complete recordings
+        run: python scripts/prepare_saxophone.py
+      - name: Test playback and room fixes together
+        run: |
+          node tests/saxophone.cjs index.html
+          node tests/rejoin.cjs index.html
+          node tests/turn-clock.cjs index.html
+      - name: Commit verified collection and updated player
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html assets/music/saxophone
+          if ! git diff --cached --quiet; then
+            git commit -m 'Keep only a curated twenty-track Saxophone Lounge collection'
+            git push origin HEAD:main
+          fi
+      - name: Package only the music used by this app
+        run: |
+          mkdir -p _site/assets/music
+          cp index.html _site/index.html
+          cp -R assets/music/saxophone _site/assets/music/saxophone
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+  deploy:
+    needs: prepare
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publish Saxophone Lounge app
+        id: deployment
+        uses: actions/deploy-pages@v4
+
